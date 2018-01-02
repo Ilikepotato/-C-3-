@@ -1,0 +1,116 @@
+//
+//  main.c
+//  UNtitle1
+//
+//  Created by 薛劲 on 31/12/2017.
+//  Copyright © 2017 薛劲. All rights reserved.
+//
+
+/*1.分解质因数（5分）
+ 题目内容：
+ 
+ 每个非素数（合数）都可以写成几个素数（也可称为质数）相乘的形式，这几个素数就都
+ 
+ 叫做这个合数的质因数。比如，6可以被分解为2x3，而24可以被分解为2x2x2x3。
+ 
+ 现在，你的程序要读入一个[2,100000]范围内的整数，然后输出它的质因数分解式；
+ 
+ 当读到的就是素数时，输出它本身。
+ 
+ 提示：可以用一个函数来判断某数是否是素数。
+ 
+ 输入格式:
+ 
+ 一个整数，范围在[2,100000]内。
+ 
+ 输出格式：
+ 
+ 形如：
+ 
+ n=axbxcxd
+ 
+ 或
+ 
+ n=n
+ 
+ 所有的符号之间都没有空格，x是小写字母x。abcd这样的数字一定是从小到大排列的。
+ 
+ 输入样例：
+ 18
+ 
+ 输出样例：
+ 18=2x3x3
+ */
+
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <math.h>
+
+bool isprimer(int n);
+void fenjie(int n);
+
+int main(int argc, char const *argv[])
+{
+    int n = 2;
+    
+    scanf("%d", &n);                //读入数据
+    printf("%d=", n);                //输出相同格式
+    if ( isprimer(n) )                //判断是否是素数
+    {
+        printf("%d\n", n);
+    }
+    else
+    {
+        fenjie(n);
+        printf("\n");
+    }
+    
+    return 0;
+}
+
+bool isprimer(int n)
+{
+    bool flag = 1;
+    
+    for (int i = 2; i <= sqrt(n); ++i)
+    {
+        if ( n%i == 0)
+        {
+            flag = 0;
+            break;
+        }
+    }
+    
+    return flag;
+}
+
+void fenjie(int n)
+{
+    int tmp = n;
+    int i = 2;
+    
+    while( tmp != 1)
+    {
+        if ( tmp%i == 0)
+        {
+            if (tmp != n)
+            {
+                printf("x");            //判断是否输出乘号
+            }
+            printf("%d", i);            //输出分解的质因数
+            tmp /= i;
+        }
+        else
+        {
+            while( i < n )
+            {
+                i++;
+                if (isprimer(i))
+                {
+                    break;
+                }//if
+            }//while
+        }//else
+    }//while
+}
